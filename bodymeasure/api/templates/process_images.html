@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Body Size Measuring</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-group label {
+            font-size: 0.9em; /* Smaller font for labels */
+        }
+        .custom-file-input {
+            cursor: pointer;
+        }
+        .custom-file-label::after {
+            content: "Browse"; /* Changing the default "Choose file" text */
+        }
+        .table th, .table td {
+            font-size: 0.9em; /* Smaller font for table */
+        }
+        .card-header h1, .card-header h2 {
+            font-size: 1.2em; /* Smaller font for headers */
+        }
+        .container {
+            margin-bottom: 50px; /* Ensure some space at the bottom */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="h5">Body Size Measurments</h1>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="{{ form.front_image.id_for_label }}">Upload Front Body Image</label>
+                                <div class="custom-file">
+                                    {{ form.front_image }}
+                                    <label class="custom-file-label" for="{{ form.front_image.id_for_label }}">Choose front body image</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.side_image.id_for_label }}">Upload Side Body Image</label>
+                                <div class="custom-file">
+                                    {{ form.side_image }}
+                                    <label class="custom-file-label" for="{{ form.side_image.id_for_label }}">Choose side body image</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form.height_cm.label_tag }}
+                                {{ form.height_cm }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+
+                    {% if measurements %}
+                        <div class="card-body mt-4">
+                            <h2 class="h6">Measurements</h2>
+                            <table class="table table-sm table-striped table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Measurement</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for key, value in measurements.items %}
+                                    <tr>
+                                        <td>{{ key }}</td>
+                                        <td>{{ value }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Show the selected file name in the custom file input label
+        $(document).ready(function() {
+            bsCustomFileInput.init()
+        });
+    </script>
+    <!-- bs-custom-file-input plugin for better file input display -->
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+</body>
+</html>
